@@ -24,6 +24,25 @@
 
       <br><br>
 
+      <!-- Friend Groups Section -->
+      <div class="friend-groups-section">
+        <h3>👥 Friend Groups</h3>
+        
+        <div class="group-management">
+          <button onclick="showCreateGroupModal()">Create New Group</button>
+          <button onclick="showManageGroupsModal()">Manage Groups</button>
+        </div>
+
+        <br>
+
+        <label for="groupSelect">Select a group (or enter names manually):</label>
+        <select id="groupSelect" onchange="handleGroupSelection()">
+          <option value="">-- Select a group --</option>
+        </select>
+
+        <br><br>
+      </div>
+
       <label for="numPlayers">Number of players (3-12): </label>
       <input type="number" id="numPlayers" min="3" max="12" value="6">
 
@@ -39,6 +58,28 @@
 
       <!-- Start Game button (hidden until names entered) -->
       <button id="startBtn" class="hidden" onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- Create Group Modal -->
+    <div id="createGroupModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close" onclick="closeCreateGroupModal()" title="Close">&times;</button>
+        <h3>Create New Friend Group</h3>
+        <input type="text" id="groupNameInput" placeholder="Group name (e.g., 'College Friends')">
+        <div id="groupMembersContainer"></div>
+        <button onclick="addMemberToGroup()">Add Member</button>
+        <br><br>
+        <button onclick="saveGroup()">Save Group</button>
+      </div>
+    </div>
+
+    <!-- Manage Groups Modal -->
+    <div id="manageGroupsModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close" onclick="closeManageGroupsModal()" title="Close">&times;</button>
+        <h3>Manage Friend Groups</h3>
+        <div id="groupsList"></div>
+      </div>
     </div>
 
     <!-- Player Reveal Area -->
