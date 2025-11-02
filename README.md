@@ -51,12 +51,6 @@ impostor-word-game/
 
 ---
 
-## 📷 Screenshots (Optional)
-
-_Add screenshots of your game UI here once you run it in the browser._
-
----
-
 ## ⚡ Installation & Usage
 
 1. Clone or download this repository:  
