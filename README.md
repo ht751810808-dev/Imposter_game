@@ -1,23 +1,23 @@
-# 🎭 Impostor Word Game
+# Impostor Word Game
 
 A fun browser-based party game inspired by **social deduction games**.  
 Players take turns revealing a secret word, but one player (the impostor) gets a **different word**. After a discussion, everyone votes to find the impostor!
 
 ---
 
-## 🚀 Features
+## Features
 
-- ✅ Supports **3–12 players**  
-- ✅ Choose from multiple categories (Food, Animals, Places, Objects, Movies, Jobs)  
-- ✅ Enter **custom player names**  
-- ✅ Each player secretly sees their word (civilian or impostor)  
-- ✅ Animated design with background elements  
-- ✅ Built-in **voting system** to catch the impostor  
-- ✅ Works entirely in the browser — no server required  
+- Supports **3–12 players**  
+- Choose from multiple categories (Food, Animals, Places, Objects, Movies, Jobs)  
+- Enter **custom player names**  
+- Each player secretly sees their word (civilian or impostor)  
+- Animated design with background elements  
+- Built-in **voting system** to catch the impostor  
+- Works entirely in the browser — no server required  
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **HTML** – structure  
 - **CSS** – styling and animations  
@@ -25,7 +25,7 @@ Players take turns revealing a secret word, but one player (the impostor) gets a
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 impostor-word-game/
 │
@@ -37,7 +37,7 @@ impostor-word-game/
 
 ---
 
-## 🎮 How to Play
+## How to Play
 
 1. Open `index.html` in your browser.  
 2. Choose a **category** and set the number of players.  
@@ -51,7 +51,7 @@ impostor-word-game/
 
 ---
 
-## ⚡ Installation & Usage
+## Installation & Usage
 
 1. Clone or download this repository:  
 
