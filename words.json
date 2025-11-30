@@ -40,5 +40,47 @@
     "Model","Tailor","Butcher","Baker","Cashier","Shopkeeper","Waiter","Waitress","Manager","Clerk","Accountant","Banker","Broker","Trader","Entrepreneur","CEO","Politician","Mayor","Governor","President",
     "Prime Minister","Diplomat","Ambassador","Judge","Magistrate","Detective","Investigator","Spy","Pilot","Astronaut","Scientist","Biologist","Chemist","Physicist","Geologist","Mathematician","Statistician","Economist","Pharmacist","Dentist",
     "Veterinarian","Optician","Surgeon","Therapist","Counselor","Psychologist","Priest","Monk","Nun","Pastor","Imam","Rabbi","Coach","Trainer","Referee","Guide","Translator","Interpreter","Librarian","Historian"
+  ],
+  "Sports": [
+    "Soccer","Basketball","Tennis","Baseball","Football","Volleyball","Golf","Cricket","Rugby","Hockey","Swimming","Running","Jogging","Sprinting","Marathon","Boxing","Wrestling","Karate","Judo","Taekwondo",
+    "Kung Fu","MMA","Fencing","Archery","Shooting","Cycling","Biking","Skiing","Snowboarding","Skating","Ice Skating","Surfing","Diving","Snorkeling","Sailing","Rowing","Kayaking","Canoeing","Rafting","Rock Climbing",
+    "Bouldering","Hiking","Trekking","Mountaineering","Camping","Fishing","Hunting","Horse Riding","Polo","Racing","Formula One","NASCAR","Rally","Motocross","Skateboarding","BMX","Parkour","Gymnastics","Yoga","Pilates",
+    "Zumba","Aerobics","Crossfit","Weightlifting","Powerlifting","Bodybuilding","Track and Field","Javelin","Discus","Shot Put","High Jump","Long Jump","Pole Vault","Hurdles","Relay","Badminton","Table Tennis","Ping Pong","Squash","Racquetball",
+    "Handball","Water Polo","Lacrosse","Softball","Dodgeball","Kickball","Frisbee","Ultimate Frisbee","Bowling","Darts","Billiards","Pool","Snooker","Curling","Bobsled","Luge","Skeleton","Figure Skating","Speed Skating","Triathlon"
+  ],
+  "Colors": [
+    "Red","Blue","Green","Yellow","Orange","Purple","Pink","Brown","Black","White","Gray","Grey","Beige","Tan","Navy","Turquoise","Teal","Aqua","Cyan","Lime",
+    "Olive","Maroon","Burgundy","Wine","Crimson","Scarlet","Ruby","Rose","Coral","Salmon","Peach","Apricot","Gold","Golden","Silver","Bronze","Copper","Rust","Amber","Honey",
+    "Mustard","Lemon","Canary","Ivory","Cream","Vanilla","Khaki","Sand","Caramel","Coffee","Chocolate","Cocoa","Mocha","Espresso","Mahogany","Chestnut","Hazel","Auburn","Cinnamon","Ginger",
+    "Mint","Sage","Forest","Emerald","Jade","Seafoam","Pistachio","Chartreuse","Neon","Lavender","Lilac","Violet","Plum","Magenta","Fuchsia","Indigo","Periwinkle","Cobalt","Sapphire","Azure",
+    "Sky Blue","Baby Blue","Powder Blue","Steel Blue","Denim","Slate","Charcoal","Ash","Pearl","Platinum","Metallic","Champagne","Taupe","Mauve","Blush","Raspberry","Cherry","Brick","Terracotta","Sienna"
+  ],
+  "Countries": [
+    "USA","Canada","Mexico","Brazil","Argentina","Chile","Peru","Colombia","Venezuela","Ecuador","Bolivia","Paraguay","Uruguay","UK","England","Scotland","Ireland","France","Germany","Italy",
+    "Spain","Portugal","Greece","Netherlands","Belgium","Switzerland","Austria","Sweden","Norway","Denmark","Finland","Iceland","Poland","Czech Republic","Hungary","Romania","Bulgaria","Croatia","Serbia","Russia",
+    "Ukraine","Turkey","Egypt","Morocco","Algeria","Tunisia","Libya","Sudan","Ethiopia","Kenya","Tanzania","Uganda","Nigeria","Ghana","South Africa","Zimbabwe","Madagascar","Australia","New Zealand","Japan",
+    "China","India","Pakistan","Bangladesh","Thailand","Vietnam","Malaysia","Singapore","Indonesia","Philippines","South Korea","North Korea","Mongolia","Nepal","Sri Lanka","Myanmar","Cambodia","Laos","Afghanistan","Iran",
+    "Iraq","Syria","Jordan","Lebanon","Israel","Palestine","Saudi Arabia","UAE","Qatar","Kuwait","Bahrain","Oman","Yemen","Kazakhstan","Uzbekistan","Armenia","Georgia","Azerbaijan","Cuba","Jamaica"
+  ],
+  "Brands": [
+    "Apple","Samsung","Google","Microsoft","Amazon","Facebook","Meta","Tesla","Nike","Adidas","Puma","Reebok","Under Armour","New Balance","Converse","Vans","McDonald's","KFC","Burger King","Starbucks",
+    "Subway","Pizza Hut","Domino's","Taco Bell","Wendy's","Coca-Cola","Pepsi","Sprite","Fanta","Mountain Dew","Red Bull","Monster","Gatorade","Powerade","Nestle","Hershey's","Mars","Kit Kat","Snickers","M&M's",
+    "Oreo","Doritos","Lay's","Pringles","Cheetos","BMW","Mercedes","Audi","Volkswagen","Porsche","Ferrari","Lamborghini","Toyota","Honda","Nissan","Mazda","Ford","Chevrolet","Dodge","Jeep",
+    "Tesla","Hyundai","Kia","Subaru","Volvo","Jaguar","Land Rover","Bentley","Rolls Royce","Lexus","Sony","Panasonic","LG","Philips","Canon","Nikon","Fuji","GoPro","DJI","Intel",
+    "AMD","Nvidia","Dell","HP","Lenovo","Asus","Acer","Logitech","Razer","Gucci","Prada","Chanel","Louis Vuitton","Versace","Burberry","Dior","Armani","Rolex","Omega","Cartier"
+  ],
+  "Instruments": [
+    "Guitar","Piano","Violin","Drums","Flute","Trumpet","Saxophone","Clarinet","Bass","Cello","Harp","Ukulele","Banjo","Mandolin","Harmonica","Accordion","Organ","Keyboard","Synthesizer","Xylophone",
+    "Marimba","Vibraphone","Glockenspiel","Triangle","Tambourine","Cymbals","Gong","Cowbell","Castanets","Maracas","Shaker","Bongos","Congas","Djembe","Tabla","Timpani","Snare Drum","Bass Drum","Tom-Tom","Hi-Hat",
+    "Trombone","Tuba","French Horn","Cornet","Euphonium","Bugle","Bassoon","Oboe","Piccolo","Recorder","Ocarina","Pan Flute","Didgeridoo","Bagpipes","Sitar","Sarod","Veena","Tanpura","Santoor","Oud",
+    "Lute","Lyre","Zither","Dulcimer","Autoharp","Electric Guitar","Acoustic Guitar","Classical Guitar","Steel Guitar","Slide Guitar","Lap Steel","Double Bass","Viola","Fiddle","Erhu","Guzheng","Koto","Shamisen","Balalaika","Theremin",
+    "Melodica","Kalimba","Music Box","Cowbell","Woodblock","Claves","Guiro","Sleigh Bells","Wind Chimes","Rainstick","Whistle","Kazoo","Jaw Harp","Handpan","Steel Drum","Steel Pan","Cajon","Bodhran","Washboard","Spoons"
+  ],
+  "Emotions": [
+    "Happy","Sad","Angry","Excited","Nervous","Calm","Relaxed","Stressed","Worried","Anxious","Scared","Fearful","Terrified","Brave","Confident","Proud","Humble","Grateful","Thankful","Appreciative",
+    "Joyful","Cheerful","Delighted","Elated","Ecstatic","Thrilled","Enthusiastic","Energetic","Bored","Tired","Exhausted","Sleepy","Drowsy","Alert","Awake","Restless","Peaceful","Serene","Content","Satisfied",
+    "Disappointed","Frustrated","Annoyed","Irritated","Furious","Enraged","Hostile","Aggressive","Gentle","Kind","Loving","Affectionate","Caring","Compassionate","Sympathetic","Empathetic","Indifferent","Apathetic","Numb","Empty",
+    "Lonely","Isolated","Abandoned","Rejected","Accepted","Welcomed","Included","Excluded","Embarrassed","Ashamed","Guilty","Regretful","Remorseful","Proud","Arrogant","Conceited","Modest","Shy","Timid","Bold",
+    "Courageous","Determined","Motivated","Inspired","Hopeful","Optimistic","Pessimistic","Depressed","Melancholic","Gloomy","Miserable","Devastated","Heartbroken","Jealous","Envious","Resentful","Bitter","Forgiving","Vengeful","Spiteful"
   ]
 }

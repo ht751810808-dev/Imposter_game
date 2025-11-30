@@ -47,7 +47,13 @@ function getClueWord(category) {
     'Places': 'A location or destination',
     'Objects': 'A physical item or tool',
     'Movies': 'A film or movie title',
-    'Jobs': 'A profession or occupation'
+    'Jobs': 'A profession or occupation',
+    'Sports': 'An athletic activity or game',
+    'Colors': 'A shade, hue or color',
+    'Countries': 'A nation or country',
+    'Brands': 'A famous company or brand',
+    'Instruments': 'A musical instrument',
+    'Emotions': 'A feeling or mood'
   };
   return clueWords[category] || 'Think about the category';
 }
@@ -710,7 +716,13 @@ function getCategoryEmoji(category) {
     'Places': '🏙️',
     'Objects': '🛠️',
     'Movies': '🎬',
-    'Jobs': '👩‍⚕️'
+    'Jobs': '👩‍⚕️',
+    'Sports': '⚽',
+    'Colors': '🌈',
+    'Countries': '🌍',
+    'Brands': '🏷️',
+    'Instruments': '🎸',
+    'Emotions': '😊'
   };
   return emojis[category] || '🎮';
 }
@@ -797,7 +809,30 @@ function copyToClipboard(text) {
   }
 }
 
+// Show category preview
+function showCategoryPreview() {
+  const category = document.getElementById('category').value;
+  const preview = document.getElementById('categoryPreview');
+  const previewWords = document.getElementById('previewWords');
+  
+  if (wordBank[category] && wordBank[category].length > 0) {
+    // Get 5 random sample words
+    const samples = [];
+    const words = [...wordBank[category]];
+    for (let i = 0; i < 5 && words.length > 0; i++) {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      samples.push(words[randomIndex]);
+      words.splice(randomIndex, 1);
+    }
+    
+    previewWords.textContent = samples.join(', ');
+    preview.classList.remove('hidden');
+  }
+}
+
 // Initialize on page load
 loadWords();
 loadFriendGroups();
 loadGameHistory();
+// Show initial preview
+setTimeout(showCategoryPreview, 500);

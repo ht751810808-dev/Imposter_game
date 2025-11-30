@@ -17,7 +17,7 @@
     <div class="hero-content">
       <h1>🎭 Imposter Game </h1>
       <p class="hero-subtitle">Free Online Party Game for 3-12 Players</p>
-      <p class="hero-description">Play imposter game online with auto word generation. Choose from 6 categories with 500+ words. Perfect for parties, team building, and family fun - no download needed!</p>
+      <p class="hero-description">Play imposter game online with auto word generation. Choose from 12 diverse categories with 1000+ words. Perfect for parties, team building, and family fun - no download needed!</p>
       <div class="hero-stats">
         <div class="stat-item">
           <span class="stat-number" id="totalGamesCount">0</span>
@@ -28,7 +28,7 @@
           <span class="stat-label">Success Rate</span>
         </div>
         <div class="stat-item">
-          <span class="stat-number">6</span>
+          <span class="stat-number">12</span>
           <span class="stat-label">Categories</span>
         </div>
       </div>
@@ -52,8 +52,8 @@
         </div>
         <div class="nav-item">
           <div class="nav-icon">📚</div>
-          <h3>500+ Words</h3>
-          <p>Huge word library for endless fun</p>
+          <h3>1000+ Words</h3>
+          <p>12 categories with massive word library</p>
         </div>
         <div class="nav-item">
           <div class="nav-icon">💾</div>
@@ -69,6 +69,76 @@
     </div>
   </section>
 
+  <!-- Categories Showcase Section -->
+  <section class="categories-showcase">
+    <div class="section-container">
+      <h2 style="text-align: center; color: #e94560; margin-bottom: 0.5rem;">🎨 12 Exciting Categories</h2>
+      <p style="text-align: center; color: #aaa; margin-bottom: 2rem;">Choose from a diverse range of word categories - each with 80-100 unique words!</p>
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-icon">🍕</div>
+          <h3>Food</h3>
+          <p>Delicious dishes, drinks & ingredients</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🦁</div>
+          <h3>Animals</h3>
+          <p>Creatures from land, sea & sky</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🏙️</div>
+          <h3>Places</h3>
+          <p>Locations & destinations worldwide</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🛠️</div>
+          <h3>Objects</h3>
+          <p>Everyday items, tools & gadgets</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🎬</div>
+          <h3>Movies</h3>
+          <p>Popular films & animations</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">👩‍⚕️</div>
+          <h3>Jobs</h3>
+          <p>Professions & career paths</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">⚽</div>
+          <h3>Sports</h3>
+          <p>Athletic activities & competitions</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🌈</div>
+          <h3>Colors</h3>
+          <p>Shades, hues & tones</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🌍</div>
+          <h3>Countries</h3>
+          <p>Nations from every continent</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🏷️</div>
+          <h3>Brands</h3>
+          <p>Famous companies & products</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">🎸</div>
+          <h3>Instruments</h3>
+          <p>Musical instruments & tools</p>
+        </div>
+        <div class="category-card">
+          <div class="category-icon">😊</div>
+          <h3>Emotions</h3>
+          <p>Feelings, moods & states</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Game Tool Section -->
   <div class="game-container" id="gameSection">
     <h2>🎯 Start Playing</h2>
@@ -76,15 +146,29 @@
 
     <!-- Category & Player Selection -->
     <div class="category-select">
-      <label for="category">Choose a Category:</label>
-      <select id="category">
-        <option value="Food">🍕 Food</option>
-        <option value="Animals">🦁 Animals</option>
-        <option value="Places">🏙️ Places</option>
-        <option value="Objects">🛠️ Objects</option>
-        <option value="Movies">🎬 Movies</option>
-        <option value="Jobs">👩‍⚕️ Jobs</option>
+      <div class="category-header">
+        <h3>🎨 Choose a Category:</h3>
+        <p class="category-description">Select a word category for your game. Each category has 100+ unique words!</p>
+      </div>
+      <select id="category" onchange="showCategoryPreview()">
+        <option value="Food">🍕 Food - Delicious dishes & drinks</option>
+        <option value="Animals">🦁 Animals - Creatures from land, sea & sky</option>
+        <option value="Places">🏙️ Places - Locations around the world</option>
+        <option value="Objects">🛠️ Objects - Everyday items & tools</option>
+        <option value="Movies">🎬 Movies - Popular films & animations</option>
+        <option value="Jobs">👩‍⚕️ Jobs - Professions & careers</option>
+        <option value="Sports">⚽ Sports - Athletic activities & games</option>
+        <option value="Colors">🌈 Colors - Shades & hues</option>
+        <option value="Countries">🌍 Countries - Nations worldwide</option>
+        <option value="Brands">🏷️ Brands - Famous companies & products</option>
+        <option value="Instruments">🎸 Instruments - Musical instruments</option>
+        <option value="Emotions">😊 Emotions - Feelings & moods</option>
       </select>
+      <div id="categoryPreview" class="category-preview hidden">
+        <p class="preview-label">📋 Sample words in this category:</p>
+        <p id="previewWords" class="preview-words"></p>
+      </div>
+      <p class="category-hint">💡 Tip: Start with Food or Animals for easier games!</p>
 
       <br><br>
 
@@ -238,7 +322,7 @@
         <h2>🎭 What is Imposter Game?</h2>
         <p><strong>Imposter Game</strong> (also known as "Who is the Spy" or "Undercover") is a thrilling social deduction party game where players must identify the impostor among them. In this game, most players receive the same secret word (civilians), while one player gets a different but related word (the impostor).</p>
         
-        <p>Our <strong>online imposter game</strong> makes it easy to play anywhere - just open your browser and start! With over 500 words across 6 categories, every game is unique and exciting. No downloads, no registration, completely free!</p>
+        <p>Our <strong>online imposter game</strong> makes it easy to play anywhere - just open your browser and start! With over 1000 words across 12 diverse categories (Food, Animals, Places, Objects, Movies, Jobs, Sports, Colors, Countries, Brands, Instruments & Emotions), every game is unique and exciting. No downloads, no registration, completely free!</p>
 
         <h2>🎲 Why Play Imposter Game Online?</h2>
         <div class="generator-benefits">
@@ -260,10 +344,10 @@
         <div class="how-to-play">
           <div class="step">
             <div class="step-number">1</div>
-            <div class="step-content">
-              <h3>Choose Category & Players</h3>
-              <p>Select a word category (Food, Animals, Places, Objects, Movies, or Jobs) and enter the number of players (3-12). You can enter custom names or use saved friend groups.</p>
-            </div>
+          <div class="step-content">
+            <h3>Choose Category & Players</h3>
+            <p>Select from 12 word categories (Food, Animals, Places, Objects, Movies, Jobs, Sports, Colors, Countries, Brands, Instruments, Emotions) and enter the number of players (3-12). You can enter custom names or use saved friend groups.</p>
+          </div>
           </div>
           
           <div class="step">
@@ -295,8 +379,8 @@
         <div class="features-grid">
           <div class="feature-item">
             <div class="feature-icon">🎨</div>
-            <h3>6 Word Categories</h3>
-            <p>Choose from Food, Animals, Places, Objects, Movies, and Jobs - over 500 words in total!</p>
+            <h3>12 Word Categories</h3>
+            <p>Choose from Food, Animals, Places, Objects, Movies, Jobs, Sports, Colors, Countries, Brands, Instruments & Emotions - over 1000 words in total!</p>
           </div>
           <div class="feature-item">
             <div class="feature-icon">👥</div>
