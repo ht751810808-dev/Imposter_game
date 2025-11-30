@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse all 500+ imposter game words across 6 categories. Complete word list for Food, Animals, Places, Objects, Movies, and Jobs. Free imposter game resources!">
+  <meta name="keywords" content="imposter game, imposter game words, imposter game word list, impostor words, spy game words">
+  <title>Imposter Game Words - Full Word List (500+ Words) | ImposterGame.art</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .words-header {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .words-header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .back-link {
+      display: inline-block;
+      margin: 2rem;
+      padding: 0.5rem 1.5rem;
+      background: #e94560;
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      transition: all 0.3s;
+    }
+    .back-link:hover {
+      background: #ff2e63;
+      transform: translateY(-2px);
+    }
+    .category-section {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+    }
+    .category-title {
+      font-size: 2rem;
+      color: #e94560;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .word-count {
+      font-size: 1rem;
+      color: #4a90e2;
+      font-weight: normal;
+    }
+    .words-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.8rem;
+    }
+    .word-tag {
+      padding: 0.6rem 1rem;
+      background: rgba(74, 144, 226, 0.2);
+      border: 1px solid rgba(74, 144, 226, 0.3);
+      border-radius: 8px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .word-tag:hover {
+      background: rgba(74, 144, 226, 0.3);
+      transform: translateY(-2px);
+    }
+    .search-box {
+      margin: 2rem auto;
+      max-width: 600px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border: 2px solid rgba(74, 144, 226, 0.5);
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .search-box input::placeholder {
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← Back to Imposter Game</a>
+
+  <div class="words-header">
+    <h1>📝 Imposter Game Words - Complete List</h1>
+    <p style="color: #aaa; font-size: 1.1rem;">Browse all 500+ imposter game words across 6 categories</p>
+    
+    <div class="search-box">
+      <input type="text" id="wordSearch" placeholder="🔍 Search words..." onkeyup="filterWords()">
+    </div>
+  </div>
+
+  <section class="section-container" id="wordsContainer">
+    <p style="text-align: center; color: #aaa;">Loading words...</p>
+  </section>
+
+  <footer class="footer">
+    <div class="section-container">
+      <p>&copy; 2024 ImposterGame.art - Play Imposter Game Online Free</p>
+      <p><a href="index.html" style="color: #4a90e2;">Play Imposter Game</a> | <a href="rules.html" style="color: #4a90e2;">Game Rules</a> | <a href="examples.html" style="color: #4a90e2;">Examples</a></p>
+    </div>
+  </footer>
+
+  <script>
+    let allWords = {};
+    
+    async function loadWords() {
+      try {
+        const response = await fetch('words.json');
+        allWords = await response.json();
+        displayWords();
+      } catch (error) {
+        console.error('Failed to load words:', error);
+        document.getElementById('wordsContainer').innerHTML = '<p style="text-align: center; color: #f44336;">Failed to load words. Please refresh the page.</p>';
+      }
+    }
+    
+    function displayWords() {
+      const container = document.getElementById('wordsContainer');
+      const categoryEmojis = {
+        'Food': '🍕',
+        'Animals': '🦁',
+        'Places': '🏙️',
+        'Objects': '🛠️',
+        'Movies': '🎬',
+        'Jobs': '👩‍⚕️'
+      };
+      
+      let html = '';
+      
+      for (const [category, words] of Object.entries(allWords)) {
+        const emoji = categoryEmojis[category] || '📌';
+        html += `
+          <div class="category-section" data-category="${category}">
+            <h2 class="category-title">
+              ${emoji} ${category}
+              <span class="word-count">(${words.length} words)</span>
+            </h2>
+            <div class="words-grid">
+              ${words.map(word => `<div class="word-tag" data-word="${word.toLowerCase()}">${word}</div>`).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      container.innerHTML = html;
+    }
+    
+    function filterWords() {
+      const searchTerm = document.getElementById('wordSearch').value.toLowerCase();
+      const wordTags = document.querySelectorAll('.word-tag');
+      const categorySections = document.querySelectorAll('.category-section');
+      
+      if (!searchTerm) {
+        wordTags.forEach(tag => tag.style.display = 'block');
+        categorySections.forEach(section => section.style.display = 'block');
+        return;
+      }
+      
+      categorySections.forEach(section => {
+        let hasVisibleWords = false;
+        const words = section.querySelectorAll('.word-tag');
+        
+        words.forEach(tag => {
+          const word = tag.getAttribute('data-word');
+          if (word.includes(searchTerm)) {
+            tag.style.display = 'block';
+            hasVisibleWords = true;
+          } else {
+            tag.style.display = 'none';
+          }
+        });
+        
+        section.style.display = hasVisibleWords ? 'block' : 'none';
+      });
+    }
+    
+    loadWords();
+  </script>
+</body>
+</html>
+

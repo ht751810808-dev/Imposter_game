@@ -7,6 +7,15 @@ let impostorIndex = 0;
 let playerNames = []; // store names
 let friendGroups = {}; // store friend groups
 let currentGroupMembers = []; // current group being created
+let gameHistory = []; // store game history
+let currentGameStartTime = null; // track game start time
+let currentCategory = ""; // track current category
+let clueWordEnabled = false; // track if clue word mode is enabled
+let currentClueWord = ""; // store the clue word
+let gamePhase = 'setup'; // setup, word-reveal, clue-round, voting, result
+let currentClueRound = 0; // current clue round (1 or 2)
+let maxClueRounds = 2; // total clue rounds
+let playerClues = []; // store all clues [[round1], [round2]]
 
 async function loadWords() {
   try {
@@ -15,6 +24,32 @@ async function loadWords() {
   } catch (error) {
     console.error("Failed to load words.json:", error);
   }
+}
+
+// Clue word mode toggle
+function toggleClueWordInfo() {
+  const checkbox = document.getElementById('clueWordMode');
+  const info = document.getElementById('clueInfo');
+  clueWordEnabled = checkbox.checked;
+  
+  if (clueWordEnabled) {
+    info.classList.remove('hidden');
+  } else {
+    info.classList.add('hidden');
+  }
+}
+
+// Get a clue word based on category
+function getClueWord(category) {
+  const clueWords = {
+    'Food': 'Something you can eat or drink',
+    'Animals': 'A living creature',
+    'Places': 'A location or destination',
+    'Objects': 'A physical item or tool',
+    'Movies': 'A film or movie title',
+    'Jobs': 'A profession or occupation'
+  };
+  return clueWords[category] || 'Think about the category';
 }
 
 // Generate input fields for names
@@ -52,8 +87,8 @@ function startGame() {
     playerNames.push(name);
   }
 
-  const category = document.getElementById("category").value;
-  const words = wordBank[category];
+  currentCategory = document.getElementById("category").value;
+  const words = wordBank[currentCategory];
 
   civilianWord = words[Math.floor(Math.random() * words.length)];
   do {
@@ -61,11 +96,23 @@ function startGame() {
   } while (impostorWord === civilianWord);
 
   impostorIndex = Math.floor(Math.random() * totalPlayers); // index in array
+  currentGameStartTime = new Date(); // track start time
+  
+  // Get clue word if enabled
+  if (clueWordEnabled) {
+    currentClueWord = getClueWord(currentCategory);
+  }
 
   currentPlayer = 0;
   document.querySelector(".category-select").classList.add("hidden");
   document.getElementById("revealContainer").classList.remove("hidden");
-  document.getElementById("playerTitle").textContent = `${playerNames[currentPlayer]}'s Turn`;
+  updatePlayerTitle();
+}
+
+function updatePlayerTitle() {
+  const titleText = `${playerNames[currentPlayer]}'s Turn`;
+  const clueText = clueWordEnabled ? `\nClue: ${currentClueWord}` : '';
+  document.getElementById("playerTitle").innerHTML = titleText + (clueText ? '<br><small style="color: #4a90e2; font-size: 0.8em;">' + clueText + '</small>' : '');
 }
 
 // Reveal word
@@ -83,14 +130,172 @@ function revealWord() {
 function nextPlayer() {
   currentPlayer++;
   if (currentPlayer >= totalPlayers) {
+    // All players have seen their words, start clue rounds
     document.getElementById("revealContainer").classList.add("hidden");
-    startVoting();
+    startClueRounds();
   } else {
-    document.getElementById("playerTitle").textContent = `${playerNames[currentPlayer]}'s Turn`;
+    updatePlayerTitle();
     document.getElementById("wordDisplay").classList.add("hidden");
     document.getElementById("revealBtn").classList.remove("hidden");
     document.getElementById("nextBtn").classList.add("hidden");
   }
+}
+
+// Start clue collection rounds
+function startClueRounds() {
+  gamePhase = 'clue-round';
+  currentClueRound = 1;
+  currentPlayer = 0;
+  
+  // Initialize clues storage
+  playerClues = [];
+  for (let i = 0; i < totalPlayers; i++) {
+    playerClues.push([]);
+  }
+  
+  // Show clue container
+  document.getElementById("clueContainer").classList.remove("hidden");
+  document.getElementById("currentRoundDisplay").textContent = currentClueRound;
+  document.getElementById("cluePlayerName").textContent = `${playerNames[currentPlayer]}'s Turn`;
+  document.getElementById("clueInput").value = '';
+  document.getElementById("clueInput").focus();
+}
+
+// Submit a clue
+function submitClue() {
+  const clueInput = document.getElementById("clueInput");
+  const clue = clueInput.value.trim();
+  
+  // Validation
+  if (!clue) {
+    alert("Please enter a clue!");
+    return;
+  }
+  
+  // Check if it's only one word
+  const words = clue.split(/\s+/);
+  if (words.length > 1) {
+    alert("⚠️ Only ONE word allowed as a clue!\nPlease try again.");
+    clueInput.value = '';
+    clueInput.focus();
+    return;
+  }
+  
+  // Store the clue
+  playerClues[currentPlayer].push(clue);
+  
+  // Show collected clue
+  showCollectedClue(playerNames[currentPlayer], clue);
+  
+  // Clear input
+  clueInput.value = '';
+  
+  // Next player
+  currentPlayer++;
+  
+  if (currentPlayer >= totalPlayers) {
+    // Round complete
+    finishClueRound();
+  } else {
+    // Next player's turn
+    document.getElementById("cluePlayerName").textContent = `${playerNames[currentPlayer]}'s Turn`;
+    clueInput.focus();
+  }
+}
+
+// Show collected clue
+function showCollectedClue(playerName, clue) {
+  const cluesGiven = document.getElementById("cluesGiven");
+  const currentRoundClues = document.getElementById("currentRoundClues");
+  
+  cluesGiven.classList.remove("hidden");
+  
+  const clueItem = document.createElement("div");
+  clueItem.className = "clue-item";
+  clueItem.innerHTML = `
+    <span class="clue-player">${playerName}:</span>
+    <span class="clue-word">"${clue}"</span>
+  `;
+  
+  currentRoundClues.appendChild(clueItem);
+}
+
+// Finish current clue round
+function finishClueRound() {
+  if (currentClueRound < maxClueRounds) {
+    // Show option to continue or skip to voting
+    const continueRound = confirm(
+      `Round ${currentClueRound} complete! 🎯\n\n` +
+      `All clues collected.\n\n` +
+      `Do you want Round ${currentClueRound + 1}?\n\n` +
+      `• Click OK for another round of clues\n` +
+      `• Click Cancel to proceed to voting`
+    );
+    
+    if (continueRound) {
+      startNextClueRound();
+    } else {
+      showCluesSummary();
+    }
+  } else {
+    // Max rounds reached
+    showCluesSummary();
+  }
+}
+
+// Start next clue round
+function startNextClueRound() {
+  currentClueRound++;
+  currentPlayer = 0;
+  
+  // Clear current round display
+  document.getElementById("currentRoundClues").innerHTML = '';
+  document.getElementById("cluesGiven").classList.add("hidden");
+  
+  // Update round indicator
+  document.getElementById("currentRoundDisplay").textContent = currentClueRound;
+  document.getElementById("cluePlayerName").textContent = `${playerNames[currentPlayer]}'s Turn`;
+  document.getElementById("clueInput").value = '';
+  document.getElementById("clueInput").focus();
+}
+
+// Show all clues summary
+function showCluesSummary() {
+  document.getElementById("clueContainer").classList.add("hidden");
+  document.getElementById("cluesSummaryContainer").classList.remove("hidden");
+  
+  const allCluesList = document.getElementById("allCluesList");
+  allCluesList.innerHTML = '';
+  
+  // Display clues by round
+  for (let round = 0; round < currentClueRound; round++) {
+    const roundSection = document.createElement("div");
+    roundSection.className = "round-clues-section";
+    
+    let roundHTML = `<h3 class="round-title">Round ${round + 1} Clues:</h3>`;
+    roundHTML += '<div class="clues-list">';
+    
+    for (let i = 0; i < totalPlayers; i++) {
+      if (playerClues[i][round]) {
+        roundHTML += `
+          <div class="summary-clue-item">
+            <span class="summary-player">${playerNames[i]}:</span>
+            <span class="summary-word">"${playerClues[i][round]}"</span>
+          </div>
+        `;
+      }
+    }
+    
+    roundHTML += '</div>';
+    roundSection.innerHTML = roundHTML;
+    allCluesList.appendChild(roundSection);
+  }
+}
+
+// Start voting from summary
+function startVotingFromSummary() {
+  document.getElementById("cluesSummaryContainer").classList.add("hidden");
+  startVoting();
 }
 
 // Voting
@@ -101,22 +306,74 @@ function startVoting() {
   const voteButtons = document.getElementById("voteButtons");
   voteButtons.innerHTML = "";
 
+  // Show clue reference if clues were collected
+  if (playerClues.length > 0 && playerClues[0].length > 0) {
+    const clueReference = document.createElement("div");
+    clueReference.className = "vote-clue-reference";
+    clueReference.innerHTML = '<h3>🔍 Clue Reference:</h3>';
+    
+    const clueList = document.createElement("div");
+    clueList.className = "vote-clue-list";
+    
+    for (let i = 0; i < totalPlayers; i++) {
+      const clueInfo = document.createElement("div");
+      clueInfo.className = "vote-clue-info";
+      
+      let cluesText = playerClues[i].map(c => `"${c}"`).join(', ');
+      clueInfo.innerHTML = `
+        <span class="vote-player-name">${playerNames[i]}:</span>
+        <span class="vote-clues">${cluesText || 'No clues'}</span>
+      `;
+      
+      clueList.appendChild(clueInfo);
+    }
+    
+    clueReference.appendChild(clueList);
+    voteButtons.appendChild(clueReference);
+    
+    // Add separator
+    const separator = document.createElement("hr");
+    separator.style.margin = "1.5rem 0";
+    separator.style.border = "none";
+    separator.style.borderTop = "1px solid rgba(255,255,255,0.2)";
+    voteButtons.appendChild(separator);
+  }
+
+  // Create vote buttons
+  const buttonsGrid = document.createElement("div");
+  buttonsGrid.className = "vote-buttons-grid";
+  
   for (let i = 0; i < totalPlayers; i++) {
     const btn = document.createElement("button");
-    btn.textContent = playerNames[i];
+    btn.className = "vote-button";
+    btn.innerHTML = `
+      <div class="vote-btn-name">${playerNames[i]}</div>
+      <div class="vote-btn-clues">${playerClues[i] ? playerClues[i].map(c => `"${c}"`).join(', ') : ''}</div>
+    `;
     btn.onclick = () => endVoting(i);
-    voteButtons.appendChild(btn);
+    buttonsGrid.appendChild(btn);
   }
+  
+  voteButtons.appendChild(buttonsGrid);
 }
 
 function endVoting(votedIndex) {
   const result = document.getElementById("voteResult");
-  if (votedIndex === impostorIndex) {
+  const impostorFound = votedIndex === impostorIndex;
+  
+  if (impostorFound) {
     result.textContent = `🎉 ${playerNames[votedIndex]} was the impostor! Civilians win!`;
   } else {
     result.textContent = `😢 ${playerNames[votedIndex]} was not the impostor. The impostor was ${playerNames[impostorIndex]}.`;
   }
   document.querySelectorAll("#voteButtons button").forEach(btn => btn.disabled = true);
+  
+  // Show play again and share buttons
+  document.getElementById("playAgainBtn").classList.remove("hidden");
+  document.getElementById("shareResultBtn").classList.remove("hidden");
+  
+  // Save game record
+  saveGameRecord(impostorFound, votedIndex);
 }
 
 // Friend Groups Management Functions
@@ -330,7 +587,7 @@ function deleteGroup(groupName) {
   }
 }
 
-// Keyboard support for modals
+// Keyboard support for modals and clue input
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Escape') {
     // Close any open modal
@@ -340,8 +597,207 @@ document.addEventListener('keydown', function(event) {
       closeManageGroupsModal();
     }
   }
+  
+  // Submit clue with Enter key
+  if (event.key === 'Enter' && document.activeElement.id === 'clueInput') {
+    event.preventDefault();
+    submitClue();
+  }
 });
 
-// Initialize friend groups on page load
+// Game History Management Functions
+function loadGameHistory() {
+  const saved = localStorage.getItem('imposterGameHistory');
+  if (saved) {
+    gameHistory = JSON.parse(saved);
+    updateStats();
+    displayRecentGames();
+  }
+}
+
+function saveGameRecord(impostorFound, votedIndex) {
+  const gameEndTime = new Date();
+  const duration = Math.floor((gameEndTime - currentGameStartTime) / 1000); // in seconds
+  
+  const record = {
+    id: Date.now(),
+    timestamp: gameEndTime.toISOString(),
+    players: totalPlayers,
+    category: currentCategory,
+    civilianWord: civilianWord,
+    impostorWord: impostorWord,
+    impostorFound: impostorFound,
+    votedPlayer: playerNames[votedIndex],
+    actualImpostor: playerNames[impostorIndex],
+    duration: duration,
+    playerNames: [...playerNames],
+    cluesGiven: playerClues.length > 0 ? [...playerClues] : null,
+    clueRounds: currentClueRound
+  };
+  
+  gameHistory.unshift(record); // add to beginning
+  
+  // Keep only last 50 games
+  if (gameHistory.length > 50) {
+    gameHistory = gameHistory.slice(0, 50);
+  }
+  
+  localStorage.setItem('imposterGameHistory', JSON.stringify(gameHistory));
+  updateStats();
+  displayRecentGames();
+}
+
+function updateStats() {
+  // Update total games count
+  const totalGames = gameHistory.length;
+  document.getElementById('totalGamesCount').textContent = totalGames;
+  
+  // Calculate success rate
+  if (totalGames > 0) {
+    const successfulGames = gameHistory.filter(g => g.impostorFound).length;
+    const successRate = Math.round((successfulGames / totalGames) * 100);
+    document.getElementById('successRateCount').textContent = `${successRate}%`;
+  }
+}
+
+function displayRecentGames() {
+  const container = document.getElementById('recentGamesList');
+  if (!container) return;
+  
+  if (gameHistory.length === 0) {
+    container.innerHTML = '<p class="no-games">No games played yet. Be the first to play!</p>';
+    return;
+  }
+  
+  // Display last 12 games
+  const recentGames = gameHistory.slice(0, 12);
+  container.innerHTML = recentGames.map(game => {
+    const timeAgo = getTimeAgo(new Date(game.timestamp));
+    const resultIcon = game.impostorFound ? '✅' : '❌';
+    const resultText = game.impostorFound ? 'Impostor Found' : 'Impostor Won';
+    const resultClass = game.impostorFound ? 'success' : 'failed';
+    
+    return `
+      <div class="game-card">
+        <div class="game-header">
+          <span class="game-players">${game.players} Players</span>
+          <span class="game-category">${getCategoryEmoji(game.category)} ${game.category}</span>
+        </div>
+        <div class="game-result ${resultClass}">
+          <span class="result-icon">${resultIcon}</span>
+          <span class="result-text">${resultText}</span>
+        </div>
+        <div class="game-words">
+          <div class="word-item">
+            <span class="word-label">Civilian:</span>
+            <span class="word-value">${game.civilianWord}</span>
+          </div>
+          <div class="word-item">
+            <span class="word-label">Impostor:</span>
+            <span class="word-value">${game.impostorWord}</span>
+          </div>
+        </div>
+        <div class="game-time">${timeAgo}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getCategoryEmoji(category) {
+  const emojis = {
+    'Food': '🍕',
+    'Animals': '🦁',
+    'Places': '🏙️',
+    'Objects': '🛠️',
+    'Movies': '🎬',
+    'Jobs': '👩‍⚕️'
+  };
+  return emojis[category] || '🎮';
+}
+
+function getTimeAgo(date) {
+  const seconds = Math.floor((new Date() - date) / 1000);
+  
+  if (seconds < 60) return 'Just now';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
+  if (seconds < 604800) return `${Math.floor(seconds / 86400)} days ago`;
+  return date.toLocaleDateString();
+}
+
+function scrollToGame() {
+  document.getElementById('gameSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function playAgain() {
+  // Reset game state
+  document.getElementById("voteContainer").classList.add("hidden");
+  document.getElementById("clueContainer").classList.add("hidden");
+  document.getElementById("cluesSummaryContainer").classList.add("hidden");
+  document.querySelector(".category-select").classList.remove("hidden");
+  document.getElementById("playAgainBtn").classList.add("hidden");
+  document.getElementById("shareResultBtn").classList.add("hidden");
+  
+  // Reset buttons
+  document.getElementById("revealBtn").classList.remove("hidden");
+  document.getElementById("nextBtn").classList.add("hidden");
+  document.getElementById("wordDisplay").classList.add("hidden");
+  
+  // Reset clue system
+  gamePhase = 'setup';
+  currentClueRound = 0;
+  playerClues = [];
+  document.getElementById("currentRoundClues").innerHTML = '';
+  document.getElementById("cluesGiven").classList.add("hidden");
+  
+  // Scroll to game section
+  scrollToGame();
+}
+
+function shareResult() {
+  const lastGame = gameHistory[0];
+  if (!lastGame) return;
+  
+  const resultText = lastGame.impostorFound ? '✅ Found the impostor!' : '❌ Impostor escaped!';
+  const shareText = `🎭 Impostor Game Result\n${resultText}\n${lastGame.players} players | ${lastGame.category} category\nPlay now: ${window.location.href}`;
+  
+  if (navigator.share) {
+    navigator.share({
+      title: 'Impostor Game Result',
+      text: shareText
+    }).catch(() => {
+      // Fallback to clipboard
+      copyToClipboard(shareText);
+    });
+  } else {
+    copyToClipboard(shareText);
+  }
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Result copied to clipboard! Share it with your friends!');
+    }).catch(() => {
+      alert('Unable to copy. Please copy manually: ' + text);
+    });
+  } else {
+    // Fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand('copy');
+      alert('Result copied to clipboard! Share it with your friends!');
+    } catch (err) {
+      alert('Unable to copy: ' + text);
+    }
+    document.body.removeChild(textarea);
+  }
+}
+
+// Initialize on page load
 loadWords();
 loadFriendGroups();
+loadGameHistory();

@@ -3,12 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impostor Word Game</title>
+  <meta name="description" content="Play Imposter Game online free - Find the spy among 3-12 players. Auto-generate words, save groups, play instantly. The best online imposter game tool!">
+  <meta name="keywords" content="imposter game, impostor game, imposter game online, play imposter game, imposter game free, who is the spy, social deduction game">
+  <title>Imposter Game </title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="game-container">
-    <h1>🎭 Impostor Word Game</h1>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>🎭 Imposter Game </h1>
+      <p class="hero-subtitle">Free Online Party Game for 3-12 Players</p>
+      <p class="hero-description">Play imposter game online with auto word generation. Choose from 6 categories with 500+ words. Perfect for parties, team building, and family fun - no download needed!</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="totalGamesCount">0</span>
+          <span class="stat-label">Games Played</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="successRateCount">0%</span>
+          <span class="stat-label">Success Rate</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">6</span>
+          <span class="stat-label">Categories</span>
+        </div>
+      </div>
+      <button class="cta-button" onclick="scrollToGame()">🎮 Play Imposter Game Now</button>
+      <div class="quick-links">
+        <a href="words.html" class="quick-link">📝 Browse All Words</a>
+        <a href="rules.html" class="quick-link">📖 Game Rules</a>
+        <a href="examples.html" class="quick-link">💡 See Examples</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Quick Nav -->
+  <section class="features-nav">
+    <div class="section-container">
+      <div class="nav-grid">
+        <div class="nav-item">
+          <div class="nav-icon">🎲</div>
+          <h3>Instant Play</h3>
+          <p>Start playing imposter game in seconds</p>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">📚</div>
+          <h3>500+ Words</h3>
+          <p>Huge word library for endless fun</p>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">💾</div>
+          <h3>Save Groups</h3>
+          <p>Save your regular gaming groups</p>
+        </div>
+        <div class="nav-item">
+          <div class="nav-icon">🎯</div>
+          <h3>Easy Mode</h3>
+          <p>Clue word option for beginners</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Game Tool Section -->
+  <div class="game-container" id="gameSection">
+    <h2>🎯 Start Playing</h2>
+    <p class="game-description">Choose your settings and start playing imposter game instantly. Words are auto-generated!</p>
 
     <!-- Category & Player Selection -->
     <div class="category-select">
@@ -23,6 +87,17 @@
       </select>
 
       <br><br>
+
+      <!-- Clue Word Mode -->
+      <div class="clue-word-option">
+        <label class="checkbox-label">
+          <input type="checkbox" id="clueWordMode" onchange="toggleClueWordInfo()">
+          <span>🎯 Enable Clue Word Mode (easier for beginners)</span>
+        </label>
+        <p class="clue-info hidden" id="clueInfo">Players will see a hint word related to the category</p>
+      </div>
+
+      <br>
 
       <!-- Friend Groups Section -->
       <div class="friend-groups-section">
@@ -90,13 +165,255 @@
       <button id="nextBtn" class="hidden" onclick="nextPlayer()">Next Player</button>
     </div>
 
+    <!-- Clue Rounds Section -->
+    <div class="clue-container hidden" id="clueContainer">
+      <div class="clue-header">
+        <h2>🎯 Give Clues</h2>
+        <p class="clue-subtitle">Each player gives ONE word as a clue about their secret word</p>
+        <div class="round-indicator">
+          <span class="round-label">Round:</span>
+          <span id="currentRoundDisplay">1</span>
+          <span class="round-total">/ 2</span>
+        </div>
+      </div>
+
+      <div class="clue-input-section">
+        <h3 id="cluePlayerName">Player 1's Turn</h3>
+        <p class="clue-instruction">Give ONE word that describes your secret word (without saying it!)</p>
+        
+        <div class="clue-input-wrapper">
+          <input type="text" id="clueInput" placeholder="Enter your one-word clue..." maxlength="30">
+          <button id="submitClueBtn" onclick="submitClue()">Submit Clue</button>
+        </div>
+        <p class="clue-hint">💡 Make it descriptive but not too obvious!</p>
+      </div>
+
+      <div class="clues-given hidden" id="cluesGiven">
+        <h3>📝 Clues Collected This Round</h3>
+        <div id="currentRoundClues"></div>
+      </div>
+    </div>
+
+    <!-- Clues Summary Section -->
+    <div class="clues-summary-container hidden" id="cluesSummaryContainer">
+      <div class="summary-header">
+        <h2>🔍 All Clues Summary</h2>
+        <p>Review all clues before voting</p>
+      </div>
+      
+      <div id="allCluesList"></div>
+      
+      <div class="summary-actions">
+        <button class="btn-primary" onclick="startVotingFromSummary()">
+          🗳️ Proceed to Voting
+        </button>
+      </div>
+    </div>
+
     <!-- Voting Section -->
     <div class="vote-container hidden" id="voteContainer">
       <h2>Vote who you think is the impostor:</h2>
       <div id="voteButtons"></div>
       <p id="voteResult"></p>
+      <button id="playAgainBtn" class="hidden" onclick="playAgain()">🔄 Play Again</button>
+      <button id="shareResultBtn" class="hidden" onclick="shareResult()">📤 Share Result</button>
     </div>
   </div>
+
+  <!-- Recent Games Section (UGC Display) -->
+  <section class="recent-games-section" id="recentGamesSection">
+    <div class="section-container">
+      <h2>🎮 Recent Games</h2>
+      <p class="section-subtitle">Live games played by our community</p>
+      <div id="recentGamesList" class="games-grid">
+        <!-- Games will be dynamically inserted here -->
+      </div>
+    </div>
+  </section>
+
+  <!-- SEO Content Section -->
+  <section class="content-section">
+    <div class="section-container">
+      <article class="content-article">
+        <h2>🎭 What is Imposter Game?</h2>
+        <p><strong>Imposter Game</strong> (also known as "Who is the Spy" or "Undercover") is a thrilling social deduction party game where players must identify the impostor among them. In this game, most players receive the same secret word (civilians), while one player gets a different but related word (the impostor).</p>
+        
+        <p>Our <strong>online imposter game</strong> makes it easy to play anywhere - just open your browser and start! With over 500 words across 6 categories, every game is unique and exciting. No downloads, no registration, completely free!</p>
+
+        <h2>🎲 Why Play Imposter Game Online?</h2>
+        <div class="generator-benefits">
+          <div class="benefit-item">
+            <strong>⚡ Instant Setup:</strong> Start playing imposter game in seconds. No preparation needed!
+          </div>
+          <div class="benefit-item">
+            <strong>🎯 Auto Word Generation:</strong> Words are automatically selected and paired for perfect gameplay.
+          </div>
+          <div class="benefit-item">
+            <strong>♾️ Unlimited Play:</strong> Play as many rounds as you want. Each game is unique and random.
+          </div>
+          <div class="benefit-item">
+            <strong>💾 Save Groups:</strong> Save your friend groups for quick repeated play sessions.
+          </div>
+        </div>
+
+        <h2>🎯 How to Play Impostor Game</h2>
+        <div class="how-to-play">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Choose Category & Players</h3>
+              <p>Select a word category (Food, Animals, Places, Objects, Movies, or Jobs) and enter the number of players (3-12). You can enter custom names or use saved friend groups.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Secret Word Reveal</h3>
+              <p>Each player privately views their word on screen. Most players see the civilian word, but one random player gets the impostor word. Keep your word secret!</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Discussion Round</h3>
+              <p>Players take turns describing their word without saying it directly. Listen carefully to others' descriptions and try to identify who has a different word.</p>
+            </div>
+          </div>
+          
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Vote & Win</h3>
+              <p>After discussion, everyone votes for who they think is the impostor. If the impostor is correctly identified, civilians win! Otherwise, the impostor wins.</p>
+            </div>
+          </div>
+        </div>
+
+        <h2>✨ Game Features</h2>
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">🎨</div>
+            <h3>6 Word Categories</h3>
+            <p>Choose from Food, Animals, Places, Objects, Movies, and Jobs - over 500 words in total!</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">👥</div>
+            <h3>Save Friend Groups</h3>
+            <p>Create and save your regular gaming groups for quick setup every time you play.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📱</div>
+            <h3>Mobile Friendly</h3>
+            <p>Play on any device - smartphone, tablet, or computer. No app download required!</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🎯</div>
+            <h3>Easy to Learn</h3>
+            <p>Simple rules that anyone can understand in minutes. Perfect for all ages!</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🆓</div>
+            <h3>Completely Free</h3>
+            <p>No registration, no downloads, no hidden fees. Just pure fun!</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h3>Quick Games</h3>
+            <p>Each game takes 5-15 minutes. Perfect for quick entertainment breaks!</p>
+          </div>
+        </div>
+
+        <h2>💡 Tips & Strategies</h2>
+        <div class="tips-section">
+          <h3>For Civilians:</h3>
+          <ul>
+            <li><strong>Be Specific but Vague:</strong> Describe your word in a way that proves you're a civilian without giving away the exact word.</li>
+            <li><strong>Watch for Inconsistencies:</strong> Pay attention to descriptions that don't quite match or seem off.</li>
+            <li><strong>Build Trust:</strong> Make sure others know you're on their team through your descriptions.</li>
+            <li><strong>Ask Questions:</strong> Probe other players with questions to reveal the impostor.</li>
+          </ul>
+          
+          <h3>For Impostors:</h3>
+          <ul>
+            <li><strong>Listen First:</strong> Let others speak first to understand what word the civilians have.</li>
+            <li><strong>Stay General:</strong> Use vague descriptions that could apply to many words.</li>
+            <li><strong>Blend In:</strong> Mirror the civilians' description style to avoid suspicion.</li>
+            <li><strong>Don't Panic:</strong> Stay calm even when questioned. Confidence is key!</li>
+          </ul>
+        </div>
+
+        <h2>🎉 Perfect For</h2>
+        <ul class="use-cases">
+          <li>🎊 <strong>Party Games:</strong> Liven up any party with this engaging group activity</li>
+          <li>👨‍👩‍👧‍👦 <strong>Family Gatherings:</strong> Fun for all ages from kids to grandparents</li>
+          <li>🏢 <strong>Team Building:</strong> Great icebreaker for corporate events and team meetings</li>
+          <li>🎓 <strong>Classroom Activities:</strong> Educational and entertaining for students</li>
+          <li>☕ <strong>Friend Hangouts:</strong> Perfect game for casual get-togethers</li>
+          <li>🌐 <strong>Online Gaming:</strong> Play remotely via video call with friends worldwide</li>
+        </ul>
+
+        <h2>❓ Frequently Asked Questions</h2>
+        <div class="faq-section">
+          <div class="faq-item">
+            <h3>How many players do I need?</h3>
+            <p>You can play with 3-12 players. We recommend 5-8 players for the best experience, as it provides enough complexity without making discussions too chaotic.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Can we play this game online with friends?</h3>
+            <p>Yes! Simply start a video call with your friends, share your screen, and play together. Each player can take turns viewing their word privately on their device.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>What if the impostor word is too obvious?</h3>
+            <p>The game automatically selects related words from the same category, but some combinations might be easier or harder. This variety keeps the game interesting! You can always start a new round if needed.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Can I add my own words?</h3>
+            <p>Currently, the game uses our curated word lists to ensure balanced gameplay. However, we're considering adding custom word lists in future updates. Stay tuned!</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Is this game suitable for children?</h3>
+            <p>Yes! The game is family-friendly with appropriate words in all categories. It's great for developing vocabulary, critical thinking, and social skills in children aged 8 and above.</p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>How long does a typical game take?</h3>
+            <p>A typical game lasts 5-15 minutes, depending on the number of players and how long the discussion phase takes. It's perfect for quick entertainment!</p>
+          </div>
+
+          <div class="faq-item">
+            <h3>What's the difference between this and Mafia/Werewolf?</h3>
+            <p>While both are social deduction games, Impostor Game is simpler and faster. There's no elimination, no night phase, and everyone participates throughout. Plus, it uses words instead of role-playing, making it more accessible.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3>Can I save my friend groups?</h3>
+            <p>Yes! Click "Create New Group" to save your regular gaming groups. Your groups are stored locally in your browser for quick access next time.</p>
+          </div>
+        </div>
+
+        <h2>🌟 Why Play Impostor Game?</h2>
+        <p>Impostor Game is more than just entertainment - it's a fantastic way to develop critical thinking, communication skills, and strategic reasoning. The game encourages creativity in how players describe words while maintaining suspense and excitement throughout.</p>
+        
+        <p>Whether you're hosting a party, looking for a team building activity, or simply want to have fun with friends and family, Impostor Game delivers an engaging experience that brings people together through laughter, suspicion, and clever deduction.</p>
+
+        <p><strong>Ready to find the impostor?</strong> Scroll up and start your first game now! No registration or download required - just pick a category, enter your players, and let the fun begin!</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container">
+      <p>&copy; 2024 ImposterGame.art - Play Imposter Game Online Free</p>
+      <p>The best online imposter game for parties, team building, and family fun!</p>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
