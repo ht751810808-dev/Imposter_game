@@ -15,7 +15,7 @@ This is a fully SEO-optimized web application following the V2.0 premium tool pa
 ### Key Features
 
 ✅ **Imposter Game Generator** - Instant word pair generation  
-✅ **500+ Word Database** - Across 6 categories  
+✅ **1000+ Word Database** - Across 12 diverse categories  
 ✅ **Friend Groups System** - Save regular gaming groups  
 ✅ **Clue Word Mode** - Optional hints for beginners  
 ✅ **Game History** - Track and display recent games  
@@ -30,12 +30,14 @@ This is a fully SEO-optimized web application following the V2.0 premium tool pa
 ```
 impostergame.art/
 ├── index.html ..................... Main generator page (V2.0)
-├── words.html ..................... Complete word database (500+ words)
+├── words.html ..................... Complete word database (1000+ words)
 ├── rules.html ..................... Detailed game rules (3000+ words)
 ├── examples.html .................. Real game scenarios (4000+ words)
 ├── script.js ...................... Game logic + history system
 ├── style.css ...................... Responsive UI design
-├── words.json ..................... Word data (6 categories)
+├── words.json ..................... Word data (12 categories)
+├── sitemap.xml .................... SEO sitemap
+├── robots.txt ..................... Search engine directives
 ├── README.md ...................... This file
 ├── V2.0-UPGRADE.md ................ V2.0 implementation details
 └── SEO-OPTIMIZATION-REPORT.md ..... Complete SEO strategy
@@ -76,15 +78,16 @@ No build process required - it's pure HTML/CSS/JS!
 
 ## 🎮 How to Play
 
-1. **Choose a category** (Food, Animals, Places, Objects, Movies, Jobs)
+1. **Choose a category** (Food, Animals, Places, Objects, Movies, Jobs, Sports, Colors, Countries, Brands, Instruments, Emotions)
 2. **Enter number of players** (3-12)
 3. **Add player names** or select a saved friend group
 4. **Enable Clue Word Mode** (optional - for beginners)
 5. **Start Game** - Generator creates word pairs instantly
 6. **Each player views their word** privately (pass device around)
-7. **Discuss and deduce** - Find who has the different word
-8. **Vote** - Identify the impostor
-9. **Results** - See if civilians or impostor won!
+7. **Give Clues** - Two rounds of one-word clues from each player
+8. **Discuss and deduce** - Find who has the different word
+9. **Vote** - Identify the impostor
+10. **Results** - See if civilians or impostor won!
 
 ---
 
@@ -105,10 +108,11 @@ No build process required - it's pure HTML/CSS/JS!
 ## 📊 Features Deep Dive
 
 ### Generator System
-- **Random Word Selection:** From 500+ word database
+- **Random Word Selection:** From 1000+ word database
 - **Smart Pairing:** Related but distinct words
-- **Category Support:** 6 main categories
+- **Category Support:** 12 diverse categories
 - **Instant Generation:** No delays or loading
+- **Category Preview:** See sample words before playing
 
 ### Friend Groups
 - **Create Groups:** Save regular gaming groups
@@ -127,6 +131,12 @@ No build process required - it's pure HTML/CSS/JS!
 - **Web Share API:** Native device sharing
 - **Clipboard Fallback:** Works everywhere
 - **Viral Growth:** Includes site link
+
+### Clue System
+- **Two-Round Clues:** Each player gives one-word clues
+- **Clue Collection:** View all clues before voting
+- **Strategic Gameplay:** Use clues to identify the impostor
+- **Optional Rounds:** Skip to voting after first round
 
 ---
 
@@ -243,6 +253,9 @@ Just upload files - no build step!
 
 - **V2.0-UPGRADE.md** - Implementation details and v2.0 philosophy
 - **SEO-OPTIMIZATION-REPORT.md** - Complete SEO strategy and keyword research
+- **CLUE-SYSTEM-UPDATE.md** - Clue system implementation guide
+- **KEYWORD-CORRECTION.md** - SEO keyword optimization
+- **DEPLOYMENT-GUIDE.md** - Complete deployment instructions
 - **README.md** (this file) - Project overview
 
 ---
@@ -289,7 +302,7 @@ If you find bugs or have ideas:
 
 ## 📄 License
 
-[Your License Here]
+MIT License - Feel free to use and modify for your own projects!
 
 ---
 
