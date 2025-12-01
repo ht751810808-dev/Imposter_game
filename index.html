@@ -81,18 +81,18 @@
         <p class="category-description">Select a word category for your game. Each category has 100+ unique words!</p>
       </div>
       <select id="category" onchange="showCategoryPreview()">
-        <option value="Food">🍕 Food - Delicious dishes & drinks</option>
-        <option value="Animals">🦁 Animals - Creatures from land, sea & sky</option>
-        <option value="Places">🏙️ Places - Locations around the world</option>
-        <option value="Objects">🛠️ Objects - Everyday items & tools</option>
-        <option value="Movies">🎬 Movies - Popular films & animations</option>
-        <option value="Jobs">👩‍⚕️ Jobs - Professions & careers</option>
-        <option value="Sports">⚽ Sports - Athletic activities & games</option>
-        <option value="Colors">🌈 Colors - Shades & hues</option>
-        <option value="Countries">🌍 Countries - Nations worldwide</option>
-        <option value="Brands">🏷️ Brands - Famous companies & products</option>
-        <option value="Instruments">🎸 Instruments - Musical instruments</option>
-        <option value="Emotions">😊 Emotions - Feelings & moods</option>
+        <option value="Food">🍕 Food</option>
+        <option value="Animals">🦁 Animals</option>
+        <option value="Places">🏙️ Places</option>
+        <option value="Objects">🛠️ Objects</option>
+        <option value="Movies">🎬 Movies</option>
+        <option value="Jobs">👩‍⚕️ Jobs</option>
+        <option value="Sports">⚽ Sports</option>
+        <option value="Colors">🌈 Colors</option>
+        <option value="Countries">🌍 Countries</option>
+        <option value="Brands">🏷️ Brands</option>
+        <option value="Instruments">🎸 Instruments</option>
+        <option value="Emotions">😊 Emotions</option>
       </select>
       <div id="categoryPreview" class="category-preview hidden">
         <p class="preview-label">📋 Sample words in this category:</p>
@@ -139,6 +139,7 @@
 
       <!-- Button to generate name inputs -->
       <button onclick="generateNameInputs()">Enter Player Names</button>
+      <button onclick="useDefaultNames()" style="background: #4a90e2; margin-left: 10px;">Use Default Names</button>
 
       <!-- Container for player name inputs -->
       <div id="playerNamesContainer"></div>

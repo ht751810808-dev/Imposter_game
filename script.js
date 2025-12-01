@@ -72,8 +72,32 @@ function generateNameInputs() {
   for (let i = 0; i < totalPlayers; i++) {
     const input = document.createElement("input");
     input.type = "text";
-    input.placeholder = `Name of Player ${i+1}`;
+    input.placeholder = `Player ${i+1}`;
     input.id = `playerName${i}`;
+    container.appendChild(input);
+    container.appendChild(document.createElement("br"));
+  }
+
+  document.getElementById("startBtn").classList.remove("hidden");
+}
+
+// Use default player names
+function useDefaultNames() {
+  totalPlayers = parseInt(document.getElementById("numPlayers").value);
+  if (isNaN(totalPlayers) || totalPlayers < 3 || totalPlayers > 12) {
+    alert("Please enter a number between 3 and 12!");
+    return;
+  }
+
+  const container = document.getElementById("playerNamesContainer");
+  container.innerHTML = "";
+
+  for (let i = 0; i < totalPlayers; i++) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = `Player ${i+1}`;
+    input.id = `playerName${i}`;
+    input.value = `Player ${i+1}`;  // Auto-fill with default name
     container.appendChild(input);
     container.appendChild(document.createElement("br"));
   }
@@ -113,6 +137,9 @@ function startGame() {
   document.querySelector(".category-select").classList.add("hidden");
   document.getElementById("revealContainer").classList.remove("hidden");
   updatePlayerTitle();
+  
+  // Scroll to keep game in view
+  setTimeout(scrollToGameContainer, 100);
 }
 
 function updatePlayerTitle() {
@@ -130,6 +157,9 @@ function revealWord() {
 
   document.getElementById("revealBtn").classList.add("hidden");
   document.getElementById("nextBtn").classList.remove("hidden");
+  
+  // Keep position stable
+  setTimeout(scrollToGameContainer, 100);
 }
 
 // Next player
@@ -144,6 +174,9 @@ function nextPlayer() {
     document.getElementById("wordDisplay").classList.add("hidden");
     document.getElementById("revealBtn").classList.remove("hidden");
     document.getElementById("nextBtn").classList.add("hidden");
+    
+    // Keep position stable
+    setTimeout(scrollToGameContainer, 100);
   }
 }
 
@@ -164,7 +197,12 @@ function startClueRounds() {
   document.getElementById("currentRoundDisplay").textContent = currentClueRound;
   document.getElementById("cluePlayerName").textContent = `${playerNames[currentPlayer]}'s Turn`;
   document.getElementById("clueInput").value = '';
-  document.getElementById("clueInput").focus();
+  
+  // Scroll to keep game in view
+  setTimeout(() => {
+    scrollToGameContainer();
+    document.getElementById("clueInput").focus();
+  }, 100);
 }
 
 // Submit a clue
@@ -296,6 +334,9 @@ function showCluesSummary() {
     roundSection.innerHTML = roundHTML;
     allCluesList.appendChild(roundSection);
   }
+  
+  // Keep position stable
+  setTimeout(scrollToGameContainer, 100);
 }
 
 // Start voting from summary
@@ -311,6 +352,9 @@ function startVoting() {
 
   const voteButtons = document.getElementById("voteButtons");
   voteButtons.innerHTML = "";
+  
+  // Keep position stable
+  setTimeout(scrollToGameContainer, 100);
 
   // Show clue reference if clues were collected
   if (playerClues.length > 0 && playerClues[0].length > 0) {
@@ -739,6 +783,20 @@ function getTimeAgo(date) {
 
 function scrollToGame() {
   document.getElementById('gameSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Scroll to keep game container in view without jumping
+function scrollToGameContainer() {
+  const gameContainer = document.querySelector('.game-container');
+  if (gameContainer) {
+    const rect = gameContainer.getBoundingClientRect();
+    const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+    
+    // Only scroll if container is not fully visible
+    if (!isVisible) {
+      gameContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
 }
 
 function playAgain() {
