@@ -327,3 +327,8 @@ Questions? Issues? Feedback?
 **Built with ❤️ for party game lovers everywhere**
 
 *Start generating games and finding impostors today!* 🎭
+
+
+## Cloudflare deployment
+
+Production source is the `main` branch. Run `node build-cloudflare.mjs` to copy the public files and `wrangler deploy` to publish.
